@@ -1,0 +1,363 @@
+{
+    "success": true,
+    "website": "https://www.notion.so/",
+    "brand": {
+        "name": "Notion",
+        "category": "Collaborative Workspace & Productivity Software",
+        "summary": "Notion is an AI-powered all-in-one workspace where teams can capture knowledge, build custom agents, search across apps, and automate workflows."
+    },
+    "analysis": {
+        "competitor_analysis": {
+            "brand_overview": "Notion combines documentation, databases, wikis, project management, and custom AI agents into a single collaborative workspace. It serves millions of users globally, ranging from startups to Fortune 100 enterprises, helping them consolidate tools and streamline operations.",
+            "main_category": "Productivity & Collaboration Software",
+            "main_products_services": [
+                "AI Workspace",
+                "Docs and Wikis",
+                "Databases and Project Management",
+                "Custom AI Agents",
+                "Enterprise Search"
+            ],
+            "your_brand_profile": {
+                "main_service": "All-in-one AI workspace and knowledge base",
+                "target_market": "Teams, startups, enterprises, and developers",
+                "key_strength": "Deep flexibility combined with native AI and custom agent automation",
+                "opportunity": "Expanding enterprise adoption through advanced governance and cross-app search"
+            },
+            "competitors": [
+                {
+                    "name": "Confluence",
+                    "website": "https://www.atlassian.com",
+                    "main_service": "Team workspace and documentation wiki",
+                    "target_market": "Engineering, product, and enterprise business teams",
+                    "strengths": [
+                        "Deep integration with Jira",
+                        "Strong enterprise adoption"
+                    ],
+                    "weaknesses": [
+                        "Less flexible customization",
+                        "Heavier UI compared to Notion"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Coda",
+                    "website": "https://coda.io",
+                    "main_service": "All-in-one doc and interactive database platform",
+                    "target_market": "Teams and businesses building custom workflows",
+                    "strengths": [
+                        "Powerful table formulas and cross-doc sync",
+                        "Rich interactive building blocks"
+                    ],
+                    "weaknesses": [
+                        "Smaller overall user community",
+                        "Less robust native AI agent ecosystem"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Airtable",
+                    "website": "https://airtable.com",
+                    "main_service": "Cloud collaboration and database platform",
+                    "target_market": "Operations, marketing, and data-driven teams",
+                    "strengths": [
+                        "Extremely powerful relational database views",
+                        "Advanced data modeling"
+                    ],
+                    "weaknesses": [
+                        "Weaker unstructured doc-writing experience",
+                        "Higher pricing tiers"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Microsoft Loop",
+                    "website": "https://loop.microsoft.com",
+                    "main_service": "Collaborative co-creation app",
+                    "target_market": "Enterprise organizations in the Microsoft ecosystem",
+                    "strengths": [
+                        "Tight integration with Microsoft 365",
+                        "Real-time component sharing"
+                    ],
+                    "weaknesses": [
+                        "Newer product with fewer advanced wiki and database features",
+                        "Locked into Microsoft ecosystem"
+                    ],
+                    "source": "ai_suggested"
+                }
+            ],
+            "comparison_table": [
+                {
+                    "aspect": "Brand Name",
+                    "your_brand": "Notion",
+                    "competitors": {
+                        "Confluence": "Confluence",
+                        "Coda": "Coda",
+                        "Airtable": "Airtable",
+                        "Microsoft Loop": "Microsoft Loop"
+                    }
+                },
+                {
+                    "aspect": "Main Service",
+                    "your_brand": "All-in-one AI workspace and knowledge base",
+                    "competitors": {
+                        "Confluence": "Team workspace and documentation wiki",
+                        "Coda": "All-in-one doc and interactive database platform",
+                        "Airtable": "Cloud collaboration and database platform",
+                        "Microsoft Loop": "Collaborative co-creation app"
+                    }
+                },
+                {
+                    "aspect": "Target Market",
+                    "your_brand": "Teams, startups, enterprises, and developers",
+                    "competitors": {
+                        "Confluence": "Engineering, product, and enterprise business teams",
+                        "Coda": "Teams and businesses building custom workflows",
+                        "Airtable": "Operations, marketing, and data-driven teams",
+                        "Microsoft Loop": "Enterprise organizations in the Microsoft ecosystem"
+                    }
+                },
+                {
+                    "aspect": "Key Strength",
+                    "your_brand": "Deep flexibility combined with native AI and custom agent automation",
+                    "competitors": {
+                        "Confluence": "Deep integration with Jira",
+                        "Coda": "Powerful table formulas and cross-doc sync",
+                        "Airtable": "Extremely powerful relational database views",
+                        "Microsoft Loop": "Tight integration with Microsoft 365"
+                    }
+                },
+                {
+                    "aspect": "Opportunity / Gap",
+                    "your_brand": "Expanding enterprise adoption through advanced governance and cross-app search",
+                    "competitors": {
+                        "Confluence": "Less flexible customization",
+                        "Coda": "Smaller overall user community",
+                        "Airtable": "Weaker unstructured doc-writing experience",
+                        "Microsoft Loop": "Newer product with fewer advanced wiki and database features"
+                    }
+                }
+            ],
+            "strengths": [
+                "Highly customizable block-based document and database architecture",
+                "Advanced native AI integration with custom agents and automated workflows",
+                "Strong brand recognition and massive global community",
+                "Comprehensive enterprise security and governance controls"
+            ],
+            "opportunities": [
+                "Deepen cross-platform enterprise search integrations to replace fragmented corporate toolsets",
+                "Expand industry-specific out-of-the-box templates and AI agent playbooks",
+                "Drive further adoption in large enterprise security-conscious segments"
+            ]
+        },
+        "target_search_queries": [
+            {
+                "query": "best AI knowledge base for remote teams",
+                "platforms": [
+                    "Google",
+                    "LinkedIn"
+                ],
+                "intent": "Service Search",
+                "business_relevance": "Captures organizations looking to consolidate documentation and utilize AI search.",
+                "target_audience": "Operations Managers and CTOs"
+            },
+            {
+                "query": "how to build custom AI agents for workflow automation",
+                "platforms": [
+                    "Google",
+                    "X"
+                ],
+                "intent": "B2B Search",
+                "business_relevance": "Attracts tech-forward teams interested in Notion's custom agent capabilities.",
+                "target_audience": "Developers and Product Leads"
+            },
+            {
+                "query": "Notion vs Confluence enterprise wiki comparison",
+                "platforms": [
+                    "Google"
+                ],
+                "intent": "Business Discovery",
+                "business_relevance": "Targets buyers actively evaluating workplace documentation platforms.",
+                "target_audience": "IT Decision Makers and Procurement Teams"
+            },
+            {
+                "query": "all in one workspace tool for startups",
+                "platforms": [
+                    "LinkedIn",
+                    "Google"
+                ],
+                "intent": "Inspiration",
+                "business_relevance": "Connects with startup founders and small business owners needing scalable productivity tools.",
+                "target_audience": "Startup Founders and Entrepreneurs"
+            },
+            {
+                "query": "how to organize product roadmaps and meeting notes in one app",
+                "platforms": [
+                    "Google",
+                    "Facebook"
+                ],
+                "intent": "Service Search",
+                "business_relevance": "Highlights Notion's core document and database functionality.",
+                "target_audience": "Product Managers and Team Leads"
+            }
+        ],
+        "seo_improvements": {
+            "primary_keyword": "AI workspace",
+            "secondary_keywords": [
+                "collaborative workspace",
+                "team knowledge base",
+                "custom AI agents",
+                "enterprise search software",
+                "productivity documentation tool"
+            ],
+            "long_tail_keywords": [
+                "best AI workspace for remote teams",
+                "all in one workspace with custom agents",
+                "how to organize company wiki in Notion",
+                "enterprise knowledge base with AI search"
+            ],
+            "business_keywords": [
+                "Notion workspace",
+                "Notion AI",
+                "team collaboration app",
+                "database management tool",
+                "automated workflows"
+            ],
+            "recommended_title": "AI Workspace & Custom Agents for Teams | Notion",
+            "title_structure": "Primary Keyword | Benefit | Brand",
+            "meta_description": "Build custom AI agents, search across all your apps, and automate workflows. Discover the AI workspace where teams collaborate and get more done.",
+            "supporting_content": [
+                {
+                    "type": "Service landing page",
+                    "title": "Notion AI & Custom Agents",
+                    "reason": "Captures high-intent search traffic for workplace artificial intelligence tools."
+                },
+                {
+                    "type": "Industry page",
+                    "title": "Notion for Enterprise Teams",
+                    "reason": "Addresses security, compliance, and governance requirements for large buyers."
+                },
+                {
+                    "type": "Blog topic",
+                    "title": "How to Build a Company Wiki That Your Team Will Actually Use",
+                    "reason": "Ranks for informational queries regarding internal knowledge management."
+                },
+                {
+                    "type": "FAQ",
+                    "title": "Enterprise Search and App Integrations FAQ",
+                    "reason": "Answers technical questions about connecting Slack, Jira, and Salesforce."
+                }
+            ],
+            "title_length": 47,
+            "meta_description_length": 145
+        },
+        "top_services": [
+            {
+                "name": "AI Workspace",
+                "description": "An all-in-one collaborative environment combining docs, databases, and chats.",
+                "target_industry": "Technology, Finance, and Marketing",
+                "target_customer": "Growing teams and enterprises",
+                "main_benefit": "Eliminates app switching by unifying all work in one place.",
+                "source": "website"
+            },
+            {
+                "name": "Custom AI Agents",
+                "description": "Always-on agents built to handle team workflows and automated tasks 24/7.",
+                "target_industry": "Software Development & Operations",
+                "target_customer": "Engineering and Operations teams",
+                "main_benefit": "Automates routine busywork and accelerates project execution.",
+                "source": "website"
+            },
+            {
+                "name": "Enterprise Search & Wikis",
+                "description": "Centralized verified knowledge base with cross-app search capabilities.",
+                "target_industry": "All Industries",
+                "target_customer": "Company-wide internal teams",
+                "main_benefit": "Provides instant answers with citations from Slack, Jira, and Notion.",
+                "source": "website"
+            },
+            {
+                "name": "Project Management & Databases",
+                "description": "Flexible tables, boards, timelines, and charts to track projects and tasks.",
+                "target_industry": "Product Design & Project Management",
+                "target_customer": "Project managers and product leads",
+                "main_benefit": "Adapts flexibly to any workflow without rigid templates.",
+                "source": "website"
+            },
+            {
+                "name": "AI Meeting Notes & Summaries",
+                "description": "Automated meeting capture, transcription, and action item generation.",
+                "target_industry": "Professional Services",
+                "target_customer": "Remote and hybrid team members",
+                "main_benefit": "Saves time and ensures no important meeting decision is lost.",
+                "source": "website"
+            }
+        ],
+        "target_audience": {
+            "primary_audience": [
+                "Startups and growing businesses",
+                "Enterprise product and engineering teams",
+                "Remote and hybrid workforce professionals"
+            ],
+            "secondary_audience": [
+                "Freelancers and independent creators",
+                "Students and educators",
+                "Operations and IT administrators"
+            ],
+            "industries": [
+                "Technology and Software",
+                "Digital Marketing and Agency",
+                "Financial Services",
+                "Consulting and Professional Services"
+            ],
+            "business_types": [
+                "Startups",
+                "Small and Medium Businesses",
+                "Enterprise Corporations",
+                "Nonprofit Organizations"
+            ],
+            "customer_profiles": [
+                "Product Managers",
+                "Engineering Leads",
+                "Operations Directors",
+                "Startup Founders"
+            ],
+            "geographic_focus": [
+                "Global audience across over 50 countries"
+            ],
+            "customer_needs": [
+                "Consolidating multiple workplace tools into a single source of truth",
+                "Automating repetitive tasks with reliable AI agents",
+                "Finding internal company information quickly across disparate apps",
+                "Ensuring enterprise-grade security and data compliance"
+            ],
+            "customer_interests": [
+                "Artificial intelligence and automation",
+                "Productivity hacks and knowledge management",
+                "Collaborative remote work tools",
+                "Software integration and workflow efficiency"
+            ],
+            "recommended_segments": [
+                "Enterprise security decision makers looking for secure AI governance",
+                "Engineering teams seeking custom agent orchestration",
+                "Fast-scaling startups needing all-in-one documentation"
+            ]
+        }
+    },
+    "meta": {
+        "model_used": "gemini-3.5-flash-lite",
+        "cached": false,
+        "elapsed_ms": 19833,
+        "pages_analyzed": [
+            "https://www.notion.com/",
+            "https://www.notion.com/product/features",
+            "https://www.notion.com/about"
+        ],
+        "prompt_tokens": 3844,
+        "output_tokens": 2512,
+        "warnings": [],
+        "notes": [
+            "Competitors are AI-generated suggestions, not live market research.",
+            "No search-volume or ranking data is included because none was measured."
+        ]
+    }
+}

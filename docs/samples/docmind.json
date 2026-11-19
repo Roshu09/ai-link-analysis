@@ -1,0 +1,7 @@
+{
+    "success": false,
+    "error": {
+        "code": "unreadable_content",
+        "message": "We couldn't find enough readable text on that page. It may be rendered by JavaScript, empty, or blocking automated visitors."
+    }
+}

@@ -1,0 +1,282 @@
+{
+  "success": true,
+  "website": "https://acme.example/",
+  "brand": {
+    "name": "Acme Web Studio",
+    "category": "Web Development Agency",
+    "summary": "A small agency that builds websites and online stores for local businesses."
+  },
+  "analysis": {
+    "competitor_analysis": {
+      "brand_overview": "Acme Web Studio builds fast, affordable websites for small businesses.",
+      "main_category": "Web Development",
+      "main_products_services": [
+        "Website design",
+        "E-commerce",
+        "SEO"
+      ],
+      "your_brand_profile": {
+        "main_service": "Website development",
+        "target_market": "Small businesses",
+        "key_strength": "Affordable pricing",
+        "opportunity": "Improve online visibility"
+      },
+      "competitors": [
+        {
+          "name": "Wix",
+          "website": "https://www.wix.com",
+          "main_service": "Website builder",
+          "target_market": "DIY users",
+          "strengths": [
+            "Brand awareness"
+          ],
+          "weaknesses": [
+            "Generic templates"
+          ],
+          "source": "ai_suggested"
+        },
+        {
+          "name": "Squarespace",
+          "website": "https://squarespace.com",
+          "main_service": "Website builder",
+          "target_market": "Creatives",
+          "strengths": [
+            "Design quality"
+          ],
+          "weaknesses": [
+            "Limited customization"
+          ],
+          "source": "ai_suggested"
+        },
+        {
+          "name": "WebFX",
+          "website": null,
+          "main_service": "Digital marketing",
+          "target_market": "Mid-market",
+          "strengths": [
+            "Scale"
+          ],
+          "weaknesses": [
+            "Higher prices"
+          ],
+          "source": "ai_suggested"
+        }
+      ],
+      "comparison_table": [
+        {
+          "aspect": "Brand Name",
+          "your_brand": "Acme Web Studio",
+          "competitors": {
+            "Wix": "Wix",
+            "Squarespace": "Squarespace",
+            "WebFX": "WebFX"
+          }
+        },
+        {
+          "aspect": "Main Service",
+          "your_brand": "Website development",
+          "competitors": {
+            "Wix": "Website builder",
+            "Squarespace": "Website builder",
+            "WebFX": "Digital marketing"
+          }
+        },
+        {
+          "aspect": "Target Market",
+          "your_brand": "Small businesses",
+          "competitors": {
+            "Wix": "DIY users",
+            "Squarespace": "Creatives",
+            "WebFX": "Mid-market"
+          }
+        },
+        {
+          "aspect": "Key Strength",
+          "your_brand": "Affordable pricing",
+          "competitors": {
+            "Wix": "Brand awareness",
+            "Squarespace": "Design quality",
+            "WebFX": "Scale"
+          }
+        },
+        {
+          "aspect": "Opportunity / Gap",
+          "your_brand": "Improve online visibility",
+          "competitors": {
+            "Wix": "Generic templates",
+            "Squarespace": "Limited customization",
+            "WebFX": "Higher prices"
+          }
+        }
+      ],
+      "strengths": [
+        "Personal service",
+        "Affordable pricing"
+      ],
+      "opportunities": [
+        "Publish case studies"
+      ]
+    },
+    "target_search_queries": [
+      {
+        "query": "affordable web design for small business",
+        "platforms": [
+          "Google",
+          "Facebook"
+        ],
+        "intent": "Service Search",
+        "business_relevance": "Matches core offer",
+        "target_audience": "Owners"
+      },
+      {
+        "query": "ecommerce website developer",
+        "platforms": [
+          "Google",
+          "LinkedIn"
+        ],
+        "intent": "B2B Search",
+        "business_relevance": "Store builds",
+        "target_audience": "Retailers"
+      },
+      {
+        "query": "website design ideas",
+        "platforms": [
+          "Instagram"
+        ],
+        "intent": "Inspiration",
+        "business_relevance": "Portfolio reach",
+        "target_audience": "Startups"
+      },
+      {
+        "query": "freelance web developer near me",
+        "platforms": [
+          "X"
+        ],
+        "intent": "Service Discovery",
+        "business_relevance": "Local leads",
+        "target_audience": "Locals"
+      },
+      {
+        "query": "SEO for small business websites",
+        "platforms": [
+          "Google",
+          "LinkedIn"
+        ],
+        "intent": "Education",
+        "business_relevance": "SEO add-on",
+        "target_audience": "Owners"
+      }
+    ],
+    "seo_improvements": {
+      "primary_keyword": "web design for small business",
+      "secondary_keywords": [
+        "affordable web design"
+      ],
+      "long_tail_keywords": [
+        "web design agency for local shops"
+      ],
+      "business_keywords": [
+        "e-commerce development"
+      ],
+      "recommended_title": "Web Design for Small Business | Acme Web Studio",
+      "title_structure": "Primary Keyword | Brand",
+      "meta_description": "Acme Web Studio builds fast, affordable websites and online stores for small businesses.",
+      "supporting_content": [
+        {
+          "type": "FAQ",
+          "title": "How much does a website cost?",
+          "reason": "Captures price searches"
+        }
+      ],
+      "title_length": 47,
+      "meta_description_length": 88
+    },
+    "top_services": [
+      {
+        "name": "Website Design",
+        "description": "Custom sites",
+        "target_industry": "Retail",
+        "target_customer": "Small businesses",
+        "main_benefit": "Professional look",
+        "source": "website"
+      },
+      {
+        "name": "E-commerce",
+        "description": "Online stores",
+        "target_industry": "Retail",
+        "target_customer": "Shops",
+        "main_benefit": "Sell online",
+        "source": "website"
+      },
+      {
+        "name": "SEO",
+        "description": "Search optimization",
+        "target_industry": "All",
+        "target_customer": "Owners",
+        "main_benefit": "More traffic",
+        "source": "website"
+      },
+      {
+        "name": "Maintenance",
+        "description": "Updates",
+        "target_industry": "All",
+        "target_customer": "Owners",
+        "main_benefit": "Peace of mind",
+        "source": "inferred"
+      },
+      {
+        "name": "Branding",
+        "description": "Logos",
+        "target_industry": "All",
+        "target_customer": "Startups",
+        "main_benefit": "Recognition",
+        "source": "inferred"
+      }
+    ],
+    "target_audience": {
+      "primary_audience": [
+        "Small business owners"
+      ],
+      "secondary_audience": [
+        "Startups"
+      ],
+      "industries": [
+        "Retail",
+        "Services"
+      ],
+      "business_types": [
+        "Local shops"
+      ],
+      "customer_profiles": [
+        "Owner with no tech team"
+      ],
+      "geographic_focus": [
+        "Not specified on the website"
+      ],
+      "customer_needs": [
+        "Affordable online presence"
+      ],
+      "customer_interests": [
+        "Growing sales online"
+      ],
+      "recommended_segments": [
+        "Local retailers"
+      ]
+    }
+  },
+  "meta": {
+    "model_used": "ILLUSTRATIVE-FORMAT-EXAMPLE (not a live model call)",
+    "cached": false,
+    "elapsed_ms": 1,
+    "pages_analyzed": [
+      "https://acme.example/"
+    ],
+    "prompt_tokens": 1200,
+    "output_tokens": 900,
+    "warnings": [],
+    "notes": [
+      "Competitors are AI-generated suggestions, not live market research.",
+      "No search-volume or ranking data is included because none was measured."
+    ]
+  }
+}

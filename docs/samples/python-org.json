@@ -1,0 +1,353 @@
+{
+    "success": true,
+    "website": "https://www.python.org/",
+    "brand": {
+        "name": "Python.org",
+        "category": "Programming Language & Open Source Software",
+        "summary": "Python.org is the official home of the Python programming language, providing software downloads, comprehensive documentation, community resources, and support managed by the Python Software Foundation."
+    },
+    "analysis": {
+        "competitor_analysis": {
+            "brand_overview": "Python is a widely adopted, high-level programming language known for its clean syntax, extensive library ecosystem, and versatility across web development, data science, and artificial intelligence. Backed by the Python Software Foundation, it supports a massive global community of developers and enterprises.",
+            "main_category": "Software Development & Programming Languages",
+            "main_products_services": [
+                "Python Programming Language",
+                "Python Standard Library",
+                "Python Package Index (PyPI)",
+                "Documentation and Tutorials",
+                "Community Job Board"
+            ],
+            "your_brand_profile": {
+                "main_service": "Open-source programming language and software ecosystem",
+                "target_market": "Developers, data scientists, educators, and enterprise software teams worldwide",
+                "key_strength": "Intuitive syntax and massive third-party package ecosystem (PyPI)",
+                "opportunity": "Expanding enterprise integrations and advanced AI/ML tooling support"
+            },
+            "competitors": [
+                {
+                    "name": "Node.js",
+                    "website": "https://nodejs.org",
+                    "main_service": "JavaScript runtime environment",
+                    "target_market": "Web and backend developers",
+                    "strengths": [
+                        "Asynchronous I/O",
+                        "Unified JavaScript ecosystem for frontend and backend"
+                    ],
+                    "weaknesses": [
+                        "Less suited for heavy scientific computing and machine learning compared to Python"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Java",
+                    "website": "https://www.java.com",
+                    "main_service": "Object-oriented programming language and platform",
+                    "target_market": "Enterprise software developers and large corporations",
+                    "strengths": [
+                        "Robust enterprise ecosystem",
+                        "High performance and strong typing"
+                    ],
+                    "weaknesses": [
+                        "Steeper learning curve and more verbose syntax than Python"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Go",
+                    "website": "https://golang.org",
+                    "main_service": "Open-source programming language created by Google",
+                    "target_market": "Cloud and systems programmers",
+                    "strengths": [
+                        "Built-in concurrency",
+                        "Fast compilation and execution speeds"
+                    ],
+                    "weaknesses": [
+                        "Smaller library ecosystem for data science and AI compared to Python"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Rust",
+                    "website": "https://www.rust-lang.org",
+                    "main_service": "Programming language focused on safety and performance",
+                    "target_market": "Systems and performance-critical software developers",
+                    "strengths": [
+                        "Memory safety without garbage collection",
+                        "Exceptional execution speed"
+                    ],
+                    "weaknesses": [
+                        "Complex syntax and steep learning curve for beginners"
+                    ],
+                    "source": "ai_suggested"
+                }
+            ],
+            "comparison_table": [
+                {
+                    "aspect": "Brand Name",
+                    "your_brand": "Python.org",
+                    "competitors": {
+                        "Node.js": "Node.js",
+                        "Java": "Java",
+                        "Go": "Go",
+                        "Rust": "Rust"
+                    }
+                },
+                {
+                    "aspect": "Main Service",
+                    "your_brand": "Open-source programming language and software ecosystem",
+                    "competitors": {
+                        "Node.js": "JavaScript runtime environment",
+                        "Java": "Object-oriented programming language and platform",
+                        "Go": "Open-source programming language created by Google",
+                        "Rust": "Programming language focused on safety and performance"
+                    }
+                },
+                {
+                    "aspect": "Target Market",
+                    "your_brand": "Developers, data scientists, educators, and enterprise software teams worldwide",
+                    "competitors": {
+                        "Node.js": "Web and backend developers",
+                        "Java": "Enterprise software developers and large corporations",
+                        "Go": "Cloud and systems programmers",
+                        "Rust": "Systems and performance-critical software developers"
+                    }
+                },
+                {
+                    "aspect": "Key Strength",
+                    "your_brand": "Intuitive syntax and massive third-party package ecosystem (PyPI)",
+                    "competitors": {
+                        "Node.js": "Asynchronous I/O",
+                        "Java": "Robust enterprise ecosystem",
+                        "Go": "Built-in concurrency",
+                        "Rust": "Memory safety without garbage collection"
+                    }
+                },
+                {
+                    "aspect": "Opportunity / Gap",
+                    "your_brand": "Expanding enterprise integrations and advanced AI/ML tooling support",
+                    "competitors": {
+                        "Node.js": "Less suited for heavy scientific computing and machine learning compared to Python",
+                        "Java": "Steeper learning curve and more verbose syntax than Python",
+                        "Go": "Smaller library ecosystem for data science and AI compared to Python",
+                        "Rust": "Complex syntax and steep learning curve for beginners"
+                    }
+                }
+            ],
+            "strengths": [
+                "Extensive third-party package ecosystem via PyPI",
+                "Extremely beginner-friendly syntax and readability",
+                "Dominant market position in artificial intelligence and machine learning"
+            ],
+            "opportunities": [
+                "Enhance official documentation for emerging cloud-native and AI frameworks",
+                "Strengthen outreach for enterprise adoption and security compliance"
+            ]
+        },
+        "target_search_queries": [
+            {
+                "query": "download python latest version",
+                "platforms": [
+                    "Google"
+                ],
+                "intent": "Service Search",
+                "business_relevance": "Drives direct core software distribution and adoption",
+                "target_audience": "Developers and students setting up their environment"
+            },
+            {
+                "query": "python beginner tutorial guide",
+                "platforms": [
+                    "Google",
+                    "X"
+                ],
+                "intent": "Inspiration",
+                "business_relevance": "Onboards new learners into the Python ecosystem",
+                "target_audience": "New programmers and career switchers"
+            },
+            {
+                "query": "python job board openings",
+                "platforms": [
+                    "LinkedIn"
+                ],
+                "intent": "B2B Search",
+                "business_relevance": "Connects Python talent with hiring companies",
+                "target_audience": "Job seekers and technical recruiters"
+            },
+            {
+                "query": "python machine learning libraries",
+                "platforms": [
+                    "Google",
+                    "LinkedIn"
+                ],
+                "intent": "Business Discovery",
+                "business_relevance": "Highlights Python's leadership in AI and data science",
+                "target_audience": "Data scientists and enterprise technology leaders"
+            },
+            {
+                "query": "python software foundation membership",
+                "platforms": [
+                    "LinkedIn",
+                    "X"
+                ],
+                "intent": "Business Discovery",
+                "business_relevance": "Fosters community engagement and nonprofit fundraising",
+                "target_audience": "Open-source contributors and corporate sponsors"
+            }
+        ],
+        "seo_improvements": {
+            "primary_keyword": "Python programming language",
+            "secondary_keywords": [
+                "Python download",
+                "Python documentation",
+                "learn Python",
+                "Python software foundation",
+                "Python tutorials"
+            ],
+            "long_tail_keywords": [
+                "how to download Python for Windows and Mac",
+                "beginner guide to Python programming",
+                "Python standard library documentation online",
+                "open source Python programming language official site"
+            ],
+            "business_keywords": [
+                "Python package index",
+                "Python job board",
+                "Python web development frameworks",
+                "Python AI and machine learning"
+            ],
+            "recommended_title": "Python Programming Language \u2013 Official Website",
+            "title_structure": "Primary Keyword | Brand",
+            "meta_description": "Welcome to Python.org, the official home of the Python programming language. Download installers, read documentation, and join the community.",
+            "supporting_content": [
+                {
+                    "type": "Service landing page",
+                    "title": "Getting Started with Python",
+                    "reason": "Captures high-volume beginner search intent and provides clear onboarding pathways."
+                },
+                {
+                    "type": "FAQ",
+                    "title": "Python Installation and Setup FAQ",
+                    "reason": "Answers common technical friction points for new users downloading the software."
+                },
+                {
+                    "type": "Industry page",
+                    "title": "Python for Artificial Intelligence and Machine Learning",
+                    "reason": "Attracts enterprise developers and data science professionals searching for ML tools."
+                },
+                {
+                    "type": "Blog topic",
+                    "title": "Python Software Foundation Community Updates",
+                    "reason": "Improves domain authority and keeps community members informed on governance and releases."
+                }
+            ],
+            "title_length": 46,
+            "meta_description_length": 141
+        },
+        "top_services": [
+            {
+                "name": "Python Software Distribution",
+                "description": "Official source code and binary installers for Python across all major operating systems.",
+                "target_industry": "Software Development",
+                "target_customer": "Software Developers",
+                "main_benefit": "Enables reliable execution of Python applications",
+                "source": "website"
+            },
+            {
+                "name": "Python Documentation",
+                "description": "Comprehensive reference guides, tutorials, and standard library specifications.",
+                "target_industry": "Education & Technology",
+                "target_customer": "Learners and Developers",
+                "main_benefit": "Accelerates software development and mastery of the language",
+                "source": "website"
+            },
+            {
+                "name": "Python Package Index (PyPI)",
+                "description": "Repository of third-party software packages and modules created by the community.",
+                "target_industry": "Software Engineering",
+                "target_customer": "Developers",
+                "main_benefit": "Provides reusable code modules to fast-track development",
+                "source": "website"
+            },
+            {
+                "name": "Community Job Board",
+                "description": "Specialized job board connecting Python developers with employers seeking technical talent.",
+                "target_industry": "Recruitment & Technology",
+                "target_customer": "Hiring Managers and Job Seekers",
+                "main_benefit": "Facilitates targeted technical hiring within the ecosystem",
+                "source": "website"
+            },
+            {
+                "name": "Enterprise Consulting Support",
+                "description": "Guidance and architectural support for organizations integrating Python into enterprise systems.",
+                "target_industry": "Enterprise IT",
+                "target_customer": "Enterprise CTOs and Engineering Leads",
+                "main_benefit": "Ensures scalable, secure, and maintainable enterprise deployments",
+                "source": "inferred"
+            }
+        ],
+        "target_audience": {
+            "primary_audience": [
+                "Software developers",
+                "Computer science students",
+                "Data scientists",
+                "Programming beginners"
+            ],
+            "secondary_audience": [
+                "IT educators",
+                "Technical recruiters",
+                "Open-source contributors",
+                "Enterprise technology leaders"
+            ],
+            "industries": [
+                "Software Development",
+                "Artificial Intelligence & Machine Learning",
+                "Academic Education",
+                "Scientific Research"
+            ],
+            "business_types": [
+                "Tech Startups",
+                "Enterprise Corporations",
+                "Educational Institutions",
+                "Open Source Communities"
+            ],
+            "customer_profiles": [
+                "Self-taught programmer building their first application",
+                "Senior data scientist developing machine learning models",
+                "University professor teaching introductory computer science"
+            ],
+            "geographic_focus": [
+                "Not specified on the website"
+            ],
+            "customer_needs": [
+                "Reliable software downloads and documentation",
+                "Easy-to-learn syntax and robust libraries",
+                "A supportive global developer community"
+            ],
+            "customer_interests": [
+                "Coding tutorials and best practices",
+                "Open-source software collaboration",
+                "AI, data analysis, and web frameworks"
+            ],
+            "recommended_segments": [
+                "Enterprise engineering teams adopting Python for scalable backend systems",
+                "STEM students and educators looking for accessible programming tools"
+            ]
+        }
+    },
+    "meta": {
+        "model_used": "gemini-3.5-flash-lite",
+        "cached": true,
+        "elapsed_ms": 0,
+        "pages_analyzed": [
+            "https://www.python.org/",
+            "https://www.python.org/about/",
+            "https://www.python.org/about/apps/"
+        ],
+        "prompt_tokens": 4215,
+        "output_tokens": 2351,
+        "warnings": [],
+        "notes": [
+            "Competitors are AI-generated suggestions, not live market research.",
+            "No search-volume or ranking data is included because none was measured."
+        ]
+    }
+}

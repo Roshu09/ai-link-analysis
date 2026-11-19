@@ -1,0 +1,356 @@
+{
+    "success": true,
+    "website": "https://www.shopify.com/",
+    "brand": {
+        "name": "Shopify",
+        "category": "E-commerce & Retail Technology Platform",
+        "summary": "Shopify is an all-in-one commerce platform that enables entrepreneurs and enterprises to build, customize, and manage online stores, retail locations, and multichannel sales operations."
+    },
+    "analysis": {
+        "competitor_analysis": {
+            "brand_overview": "Shopify provides a comprehensive SaaS-based commerce infrastructure designed for businesses of all sizes, featuring integrated payments, AI-driven assistants, inventory management, and multi-channel selling. It powers millions of businesses globally ranging from solo entrepreneurs to enterprise brands like Mattel and Glossier.",
+            "main_category": "Ecommerce Platform",
+            "main_products_services": [
+                "Online Store Builder",
+                "Shopify Checkout",
+                "Point of Sale (POS)",
+                "Shopify Capital",
+                "Sidekick AI Assistant"
+            ],
+            "your_brand_profile": {
+                "main_service": "All-in-one commerce platform",
+                "target_market": "Entrepreneurs, small businesses, and global enterprises",
+                "key_strength": "Industry-leading high-converting checkout and massive app ecosystem",
+                "opportunity": "Expanding deeper into agentic AI commerce and B2B wholesale markets"
+            },
+            "competitors": [
+                {
+                    "name": "WooCommerce",
+                    "website": "https://woocommerce.com",
+                    "main_service": "Open-source ecommerce plugin for WordPress",
+                    "target_market": "Developers and content-driven businesses wanting total control",
+                    "strengths": [
+                        "Highly customizable",
+                        "Open source nature",
+                        "Leverages WordPress ecosystem"
+                    ],
+                    "weaknesses": [
+                        "Requires separate hosting and maintenance",
+                        "Security and updates are self-managed"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Squarespace",
+                    "website": "https://www.squarespace.com",
+                    "main_service": "Website builder with integrated ecommerce tools",
+                    "target_market": "Creative professionals, local businesses, and artists",
+                    "strengths": [
+                        "Stunning visual templates",
+                        "All-in-one hosting and design simplicity"
+                    ],
+                    "weaknesses": [
+                        "Less robust advanced inventory and multi-channel capabilities compared to Shopify"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "Wix Ecommerce",
+                    "website": "https://www.wix.com",
+                    "main_service": "Cloud-based web development and ecommerce platform",
+                    "target_market": "Small business owners seeking drag-and-drop design ease",
+                    "strengths": [
+                        "Intuitive drag-and-drop editor",
+                        "Good for simple retail sites"
+                    ],
+                    "weaknesses": [
+                        "Checkout scaling limitations for large enterprise volumes"
+                    ],
+                    "source": "ai_suggested"
+                },
+                {
+                    "name": "BigCommerce",
+                    "website": "https://www.bigcommerce.com",
+                    "main_service": "SaaS ecommerce platform for fast-growing and enterprise brands",
+                    "target_market": "Mid-market and enterprise merchants",
+                    "strengths": [
+                        "Strong native B2B features",
+                        "Robust built-in functionality without relying heavily on apps"
+                    ],
+                    "weaknesses": [
+                        "Smaller app ecosystem and theme marketplace than Shopify"
+                    ],
+                    "source": "ai_suggested"
+                }
+            ],
+            "comparison_table": [
+                {
+                    "aspect": "Brand Name",
+                    "your_brand": "Shopify",
+                    "competitors": {
+                        "WooCommerce": "WooCommerce",
+                        "Squarespace": "Squarespace",
+                        "Wix Ecommerce": "Wix Ecommerce",
+                        "BigCommerce": "BigCommerce"
+                    }
+                },
+                {
+                    "aspect": "Main Service",
+                    "your_brand": "All-in-one commerce platform",
+                    "competitors": {
+                        "WooCommerce": "Open-source ecommerce plugin for WordPress",
+                        "Squarespace": "Website builder with integrated ecommerce tools",
+                        "Wix Ecommerce": "Cloud-based web development and ecommerce platform",
+                        "BigCommerce": "SaaS ecommerce platform for fast-growing and enterprise brands"
+                    }
+                },
+                {
+                    "aspect": "Target Market",
+                    "your_brand": "Entrepreneurs, small businesses, and global enterprises",
+                    "competitors": {
+                        "WooCommerce": "Developers and content-driven businesses wanting total control",
+                        "Squarespace": "Creative professionals, local businesses, and artists",
+                        "Wix Ecommerce": "Small business owners seeking drag-and-drop design ease",
+                        "BigCommerce": "Mid-market and enterprise merchants"
+                    }
+                },
+                {
+                    "aspect": "Key Strength",
+                    "your_brand": "Industry-leading high-converting checkout and massive app ecosystem",
+                    "competitors": {
+                        "WooCommerce": "Highly customizable",
+                        "Squarespace": "Stunning visual templates",
+                        "Wix Ecommerce": "Intuitive drag-and-drop editor",
+                        "BigCommerce": "Strong native B2B features"
+                    }
+                },
+                {
+                    "aspect": "Opportunity / Gap",
+                    "your_brand": "Expanding deeper into agentic AI commerce and B2B wholesale markets",
+                    "competitors": {
+                        "WooCommerce": "Requires separate hosting and maintenance",
+                        "Squarespace": "Less robust advanced inventory and multi-channel capabilities compared to Shopify",
+                        "Wix Ecommerce": "Checkout scaling limitations for large enterprise volumes",
+                        "BigCommerce": "Smaller app ecosystem and theme marketplace than Shopify"
+                    }
+                }
+            ],
+            "strengths": [
+                "World's best-converting checkout with Shop Pay",
+                "Extensive app store with over 21,000 apps",
+                "Robust enterprise scalability and reliability"
+            ],
+            "opportunities": [
+                "Enhancing AI-driven agentic commerce tools",
+                "Deepening market penetration in international cross-border selling"
+            ]
+        },
+        "target_search_queries": [
+            {
+                "query": "best ecommerce platform for small business",
+                "platforms": [
+                    "Google",
+                    "LinkedIn"
+                ],
+                "intent": "Service Search",
+                "business_relevance": "Captures high-intent founders looking to start an online store",
+                "target_audience": "Entrepreneurs and small business owners"
+            },
+            {
+                "query": "how to start an online store with AI",
+                "platforms": [
+                    "Google",
+                    "Facebook"
+                ],
+                "intent": "Inspiration",
+                "business_relevance": "Positions Shopify as a leader in AI-driven store building",
+                "target_audience": "Solo entrepreneurs and creators"
+            },
+            {
+                "query": "Shopify pricing and plans comparison",
+                "platforms": [
+                    "Google"
+                ],
+                "intent": "Service Search",
+                "business_relevance": "Targets users actively evaluating subscription tiers before purchasing",
+                "target_audience": "Business evaluators"
+            },
+            {
+                "query": "enterprise ecommerce solutions B2B",
+                "platforms": [
+                    "LinkedIn",
+                    "Google"
+                ],
+                "intent": "B2B Search",
+                "business_relevance": "Attracts high-value enterprise accounts and global brands",
+                "target_audience": "Enterprise decision makers and directors"
+            },
+            {
+                "query": "best point of sale system for retail store",
+                "platforms": [
+                    "Google",
+                    "Instagram"
+                ],
+                "intent": "Business Discovery",
+                "business_relevance": "Drives adoption of Shopify's unified omnichannel POS hardware and software",
+                "target_audience": "Brick-and-mortar retail owners"
+            }
+        ],
+        "seo_improvements": {
+            "primary_keyword": "ecommerce platform",
+            "secondary_keywords": [
+                "online store builder",
+                "shopping cart software",
+                "sell online",
+                "ecommerce website"
+            ],
+            "long_tail_keywords": [
+                "how to start an online store easily",
+                "best ecommerce platform for growing brands",
+                "all in one commerce platform with AI",
+                "build custom online storefront headless"
+            ],
+            "business_keywords": [
+                "Shopify POS",
+                "Shop Pay checkout",
+                "Shopify Capital",
+                "Sidekick AI"
+            ],
+            "recommended_title": "Shopify: The All-in-One E-Commerce Platform & Online Store Builder",
+            "title_structure": "Brand: Primary Keyword & Benefit",
+            "meta_description": "Try Shopify free. Build or grow your business fast with AI, world-class checkout, and tools to manage online and in-person retail sales.",
+            "supporting_content": [
+                {
+                    "type": "Blog topic",
+                    "title": "How to Start an Online Store in 2026: Step-by-Step Guide",
+                    "reason": "Captures top-of-funnel search traffic from aspiring entrepreneurs."
+                },
+                {
+                    "type": "Industry page",
+                    "title": "Ecommerce Solutions for Fashion and Apparel Brands",
+                    "reason": "Targets vertical-specific searches from retail business owners."
+                },
+                {
+                    "type": "FAQ",
+                    "title": "Frequently Asked Questions About Shopify Pricing and Plans",
+                    "reason": "Answers key buyer objections and captures long-tail informational queries."
+                },
+                {
+                    "type": "Service landing page",
+                    "title": "Omnichannel Point of Sale (POS) Systems for Retail Stores",
+                    "reason": "Promotes physical retail integration to online store owners."
+                }
+            ],
+            "title_length": 66,
+            "meta_description_length": 136
+        },
+        "top_services": [
+            {
+                "name": "Online Store Builder",
+                "description": "Instantly build online stores using AI prompts or customizable themes.",
+                "target_industry": "Retail & Ecommerce",
+                "target_customer": "Entrepreneurs",
+                "main_benefit": "Launch a fully functional store fast without coding.",
+                "source": "website"
+            },
+            {
+                "name": "Shopify Checkout & Shop Pay",
+                "description": "High-converting accelerated checkout experience trusted by millions.",
+                "target_industry": "Ecommerce",
+                "target_customer": "Online Merchants",
+                "main_benefit": "Maximizes conversion rates up to 50% higher than standard checkout.",
+                "source": "website"
+            },
+            {
+                "name": "Point of Sale (POS)",
+                "description": "Unified hardware and software to sell in person and online from one dashboard.",
+                "target_industry": "Brick-and-Mortar Retail",
+                "target_customer": "Retail Store Owners",
+                "main_benefit": "Synchronizes physical and digital inventory in real time.",
+                "source": "website"
+            },
+            {
+                "name": "Shopify Capital",
+                "description": "Business funding up to $2M with 0% equity taken.",
+                "target_industry": "All Retail Sectors",
+                "target_customer": "Growing Businesses",
+                "main_benefit": "Provides quick access to inventory and growth capital.",
+                "source": "website"
+            },
+            {
+                "name": "Sidekick AI Assistant",
+                "description": "Built-in AI commerce assistant to automate tedious tasks and find growth opportunities.",
+                "target_industry": "Ecommerce Management",
+                "target_customer": "Store Operators",
+                "main_benefit": "Saves time and uncovers data-driven business insights.",
+                "source": "website"
+            }
+        ],
+        "target_audience": {
+            "primary_audience": [
+                "Entrepreneurs",
+                "Small business owners",
+                "Ecommerce merchants"
+            ],
+            "secondary_audience": [
+                "Enterprise brands",
+                "Developers",
+                "Retail store managers"
+            ],
+            "industries": [
+                "Retail",
+                "Fashion and Apparel",
+                "Food and Beverage",
+                "Consumer Goods"
+            ],
+            "business_types": [
+                "Solo-preneurs",
+                "DTC brands",
+                "Brick-and-mortar retailers",
+                "Global enterprises"
+            ],
+            "customer_profiles": [
+                "First-time founders launching a side hustle",
+                "Growing brand owners scaling multi-channel sales",
+                "Enterprise digital directors seeking headless commerce tools"
+            ],
+            "geographic_focus": [
+                "Global"
+            ],
+            "customer_needs": [
+                "Easy store setup without technical debt",
+                "High checkout conversion rates",
+                "Reliable inventory and order management"
+            ],
+            "customer_interests": [
+                "Business growth",
+                "Digital marketing",
+                "AI automation",
+                "Retail technology"
+            ],
+            "recommended_segments": [
+                "Physical retail stores transitioning to omnichannel",
+                "High-growth DTC brands scaling internationally"
+            ]
+        }
+    },
+    "meta": {
+        "model_used": "gemini-3.5-flash-lite",
+        "cached": false,
+        "elapsed_ms": 15643,
+        "pages_analyzed": [
+            "https://www.shopify.com/",
+            "https://www.shopify.com/pricing",
+            "https://www.shopify.com/legal/terms"
+        ],
+        "prompt_tokens": 4628,
+        "output_tokens": 2510,
+        "warnings": [
+            "The suggested SEO title is 66 characters; search engines usually show about 60."
+        ],
+        "notes": [
+            "Competitors are AI-generated suggestions, not live market research.",
+            "No search-volume or ranking data is included because none was measured."
+        ]
+    }
+}
