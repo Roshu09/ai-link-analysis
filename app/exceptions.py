@@ -44,6 +44,29 @@ class WebsiteUnreachableError(AppError):
     default_message = "We couldn't reach that website."
 
 
+class AccessRestrictedError(WebsiteUnreachableError):
+    """The site answered but refused automated access (HTTP 401/403/429...).
+
+    Social platforms do this constantly. The analysis service recovers from it by
+    analyzing the link itself instead of failing.
+    """
+
+    default_message = "The website refused our automated request."
+
+    def __init__(self, message: str | None = None, *, status: int | None = None, headers=None):
+        super().__init__(message, headers=headers)
+        self.http_status = status
+
+
+class WebsiteDownError(WebsiteUnreachableError):
+    """Timeout, connection failure or HTTP 5xx.
+
+    The site may really be down, or it may be dropping bot traffic. For a normal website
+    this stays an error. For a social platform (which is never really "down") the analysis
+    service recovers from it by analyzing the link itself.
+    """
+
+
 class UnsupportedContentError(AppError):
     status_code = 422
     code = "unsupported_content"

@@ -118,10 +118,17 @@ class FakeLLM:
     def __init__(self, *responses):
         self.responses = list(responses)
         self.calls = 0
+        self.prompts: list[str] = []
+        self.search_flags: list[bool] = []
 
-    async def generate_json(self, system_prompt: str, user_prompt: str) -> LLMResult:
+    async def generate_json(self, system_prompt: str, user_prompt: str, use_search: bool = False) -> LLMResult:
         self.calls += 1
+        self.prompts.append(user_prompt)
+        self.search_flags.append(use_search)
         item = self.responses[min(self.calls - 1, len(self.responses) - 1)]
         if isinstance(item, Exception):
             raise item
-        return LLMResult(data=item, model="fake-model", prompt_tokens=1200, output_tokens=900, latency_ms=10)
+        return LLMResult(
+            data=item, model="fake-model", prompt_tokens=1200, output_tokens=900, latency_ms=10,
+            grounded=use_search, sources=["example-source.com"] if use_search else [],
+        )

@@ -59,6 +59,18 @@ pytest
 
 The tests never call the real internet or the real Gemini API, so they are fast and free. They use a fake network, fake DNS and a fake LLM.
 
+### Try many links at once
+
+`scripts/smoke_test.py` sends about 45 different links to a running copy of the API (ordinary sites, social profiles, the same site typed different ways, and links that must be rejected) and checks each result against what should happen:
+
+```bash
+python scripts/smoke_test.py                                          # local server
+python scripts/smoke_test.py --base-url https://ai-link-analysis-l9md.onrender.com   # live demo
+python scripts/smoke_test.py --only social                            # one group
+```
+
+Results for live sites depend on those sites and on the AI provider, so a failed case means "look at this one".
+
 ---
 
 ## Response format
@@ -108,6 +120,9 @@ The tests never call the real internet or the real Gemini API, so they are fast 
   },
   "meta": {
     "model_used": "gemini-3.5-flash-lite", "cached": false, "elapsed_ms": 9140,
+    "content_source": "page",           // or "url_only" when the page could not be read
+    "platform": null, "account": null,  // e.g. "Instagram" / "crestspot" for social links
+    "grounded": false, "grounding_sources": [],
     "pages_analyzed": ["https://acme.example/", "https://acme.example/about"],
     "prompt_tokens": 3120, "output_tokens": 2240,
     "warnings": [],
@@ -131,8 +146,7 @@ Every error uses the same shape:
 | 422 | `invalid_url` | Not a valid http(s) URL |
 | 400 | `blocked_url` | URL points to a private/internal address (SSRF protection) |
 | 422 | `unsupported_content` | URL is not an HTML page (PDF, image, ...) |
-| 422 | `unreadable_content` | Almost no text found (JavaScript-only page, or blocked) |
-| 502 | `website_unreachable` | DNS failure, timeout, HTTP 4xx/5xx, bot blocking |
+| 502 | `website_unreachable` | Unknown domain, timeout, or a real HTTP 404/5xx. (Pages that refuse automated access, or have no readable text, do **not** error. See "Social media links and blocked pages".) |
 | 502 | `llm_error` / `llm_invalid_output` | The AI provider failed or returned unusable output |
 | 503 | `llm_rate_limited` | Gemini free-tier limit hit even after retries |
 | 429 | `rate_limited` | Too many requests from one client (`Retry-After` header included) |
@@ -173,8 +187,9 @@ app/
     validators.py              URL validation and SSRF protection
     cache.py                   TTL cache
     rate_limit.py              per-client rate limiter
-tests/                         108 tests (validators, extractor, LLM client, pipeline, API)
+tests/                         188 tests (validators, extractor, LLM client, pipeline, API)
 scripts/benchmark.py           measures real latency/tokens/reliability of models
+scripts/smoke_test.py          runs ~45 varied links against a running API and checks each result
 ```
 
 ### Design decisions
@@ -183,8 +198,19 @@ scripts/benchmark.py           measures real latency/tokens/reliability of model
 - **Plain HTTPS to Gemini instead of an SDK.** Fewer dependencies and easy to test with a fake network.
 - **Honest about what the model can't know.** Competitors are labelled `ai_suggested`, services are labelled `website` or `inferred`, and no search volumes are ever invented.
 - **Prompt-injection resistance.** Website text is wrapped in markers and declared untrusted data; the model is told to ignore instructions inside it.
-- **Forgiving but strict.** The schema fixes small slips (e.g. "Twitter" becomes "X", a string where a list was expected). If something important is missing (say, only 3 of the 5 queries), the model is told exactly what was wrong and gets one retry.
+- **Forgiving but strict.** The schema fixes small slips (e.g. "Twitter" becomes "X", a string where a list was expected). If something important is missing (say, only 3 of the 5 queries), the model is told exactly what was wrong and gets one retry. If the answer is still incomplete but useful, it is returned as a partial result with a clear warning in `meta.warnings` instead of an error; nothing is invented to fill the gaps.
 - **Quota protection.** Per-IP rate limiting, a response cache, and retries with backoff for Gemini's free-tier limits.
+
+### Social media links and blocked pages
+
+Instagram, X, Facebook, LinkedIn and similar platforms refuse automated page reads (login walls, HTTP 429/403, bot detection), and some normal sites do too. A hard error is the wrong answer for a valid public link, so the API handles it like this:
+
+1. It recognizes the platform and account name from the URL (`app/utils/social.py`).
+2. If the page cannot be read (the site refuses automated visitors with HTTP 401/403/429/999 or any other 4xx except 404/410, redirects in a loop, shows a login page, or has almost no text; for social links also timeouts and HTTP 5xx), it still returns **HTTP 200** with an analysis of the account *behind the link*, in **link-only mode**.
+3. In link-only mode the model is asked to look the account up with **Google Search grounding**. If that tool is unavailable, it falls back to the model's general knowledge and says so.
+4. The response is clearly labelled so nobody mistakes it for a page-based analysis: `meta.content_source` is `"url_only"`, `meta.warnings` explains why, `meta.platform` and `meta.account` are filled in, and every service is marked `"inferred"`. Link-only results are not cached.
+
+What this does **not** do: it does not bypass logins or bot protection, and it does not pretend to have read a page it could not read. For a small or obscure account the model may not be able to identify the business. Then it is told to say so and keep the answer generic rather than invent details. Genuine problems (invalid or private URLs, unknown domains, HTTP 404, non-HTML files, AI provider failures) still return clear errors.
 
 ### Security
 
@@ -195,8 +221,8 @@ scripts/benchmark.py           measures real latency/tokens/reliability of model
 
 ### Known limitations (being upfront)
 
-- **JavaScript-rendered sites** (pure React/Vue single-page apps) return little HTML text. The API detects this and returns `unreadable_content` or a warning rather than guessing. A headless browser (e.g. Playwright) would fix it but is slower and heavier.
-- **Bot-blocking sites** (Cloudflare challenges, etc.) may return 403; the API reports it clearly.
+- **JavaScript-rendered sites** (pure React/Vue single-page apps) return little HTML text. The API detects this and switches to link-only mode (see above) instead of guessing from empty content. A headless browser (e.g. Playwright) would read these pages properly but is slower and heavier.
+- **Bot-blocking sites and social platforms** refuse automated reads. The API then returns a clearly labelled link-only analysis, which is lower confidence than a page-based one. The Google Search grounding used there depends on the Gemini model and plan supporting it, and on free-tier quota; if it is unavailable the answer relies on general model knowledge only.
 - **DNS rebinding:** we validate the resolved IPs before connecting, but a hostile DNS server could change its answer between the check and the connection. Closing this completely needs IP pinning at the socket level.
 - **Competitors are suggestions from the model's general knowledge**, not live market research. They are labelled that way in every response.
 - **In-memory cache and rate limiter** work for a single server process. Multiple instances would need Redis.
@@ -269,7 +295,7 @@ Real runs of this API with `gemini-3.5-flash-lite` on 18 Nov 2026, through the `
 | notion.so | 19.8 s | 3,844 | 2,512 | Valid, all 5 sections | $0.0074 |
 | shopify.com | 15.6 s | 4,628 | 2,510 | Valid, all 5 sections (warning: SEO title was 66 characters, over the 60 target) | $0.0077 |
 | python.org | not timed (see below) | 4,215 | 2,351 | Valid, all 5 sections | $0.0071 |
-| docmind.space | n/a | n/a | n/a | Clean `422 unreadable_content` error (the site is rendered by JavaScript) | n/a |
+| docmind.space | n/a | n/a | n/a | Error at the time (the site is rendered by JavaScript). This run was **before** link-only mode was added and has not been re-measured | n/a |
 | **Average (valid runs)** | **17.7 s** (2 timed runs) | **4,229** | **2,458** | 3 of 3 valid sites passed | **$0.0074** (about $7.40 per 1,000) |
 
 What these numbers do and don't show:
@@ -280,7 +306,7 @@ What these numbers do and don't show:
 - **Whether the app had to use its corrective retry** is not recorded in the response, so "valid" means the final result passed validation.
 - **Accuracy** was judged by reading the outputs: brand names, categories, services and competitors matched the real companies, and services pulled from the pages were labelled `website`. Competitors are AI suggestions and were not independently verified.
 - **Weak spot found and fixed:** on the Shopify run the extractor spent one of its three page reads on a Terms of Service page. Legal, privacy, login and cart pages are now excluded from page selection (covered by a test).
-- **Known miss:** `docmind.space` returned almost no text to a plain HTTP fetch, because the site is rendered in the browser by JavaScript. The API reports this clearly instead of guessing. See Known limitations.
+- **Known miss, since addressed:** `docmind.space` returned almost no text to a plain HTTP fetch, because the site is rendered in the browser by JavaScript. A live review run of an Instagram link also failed, with HTTP 429. Both cases now return a labelled link-only analysis (see "Social media links and blocked pages"). The new behaviour is covered by automated tests with simulated blocking; it has not been added to this measured table.
 
 `scripts/benchmark.py` can repeat this across several models and sites if you want more data.
 
@@ -300,7 +326,7 @@ All settings are environment variables (see `.env.example`):
 | `MAX_EXTRA_PAGES` | 2 | Extra About/Services pages to read |
 | `MAX_CONTENT_CHARS` | 14000 | Max website text sent to the LLM |
 | `CACHE_TTL_SECONDS` | 3600 | Result cache lifetime (0 disables) |
-| `RATE_LIMIT_PER_MINUTE` | 10 | Per-IP limit (0 disables) |
+| `RATE_LIMIT_PER_MINUTE` | 30 | Per-IP limit (0 disables) |
 
 If a call fails with "model not available", check the current model names in Google AI Studio and update `GEMINI_MODEL` in `.env`. No code change is needed.
 
@@ -321,4 +347,4 @@ If a call fails with "model not available", check the current model names in Goo
 
 **Tests passing**
 
-![Tests](docs/screenshots/pytest-108-passed.png)
+![Tests](docs/screenshots/pytest-passed.png)

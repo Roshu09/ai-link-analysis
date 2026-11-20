@@ -49,7 +49,7 @@ class Settings(BaseModel):
     # --- Caching and abuse protection ---
     cache_ttl_seconds: int = 3600
     cache_max_entries: int = 200
-    rate_limit_per_minute: int = 10
+    rate_limit_per_minute: int = 30
 
 
 @lru_cache
@@ -64,5 +64,5 @@ def get_settings() -> Settings:
         max_extra_pages=_env_int("MAX_EXTRA_PAGES", 2),
         max_content_chars=_env_int("MAX_CONTENT_CHARS", 14_000),
         cache_ttl_seconds=_env_int("CACHE_TTL_SECONDS", 3600),
-        rate_limit_per_minute=_env_int("RATE_LIMIT_PER_MINUTE", 10),
+        rate_limit_per_minute=_env_int("RATE_LIMIT_PER_MINUTE", 30),
     )

@@ -21,9 +21,11 @@ from bs4 import BeautifulSoup
 
 from app.config import Settings
 from app.exceptions import (
+    AccessRestrictedError,
     AppError,
     UnreadableContentError,
     UnsupportedContentError,
+    WebsiteDownError,
     WebsiteUnreachableError,
 )
 from app.utils.validators import assert_public_url, normalize_url
@@ -31,6 +33,8 @@ from app.utils.validators import assert_public_url, normalize_url
 logger = logging.getLogger(__name__)
 
 REDIRECT_CODES = {301, 302, 303, 307, 308}
+# The site answered but refuses automated visitors (999 is LinkedIn's bot response).
+RESTRICTED_STATUSES = {401, 403, 405, 406, 429, 451, 999}
 KEY_PAGE_HINTS = (
     "about", "service", "solution", "product", "what-we-do", "offering",
     "feature", "pricing", "company", "expertise", "industr", "platform", "capabilit",
@@ -100,6 +104,8 @@ class WebsiteContent:
     final_url: str
     pages: list[PageContent]
     warnings: list[str] = field(default_factory=list)
+    mode: str = "page"  # "page" = we read it, "url_only" = we could not
+    block_reason: str = ""
 
     @property
     def total_text_chars(self) -> int:
@@ -345,8 +351,15 @@ class WebsiteExtractor:
                         current = normalize_url(urljoin(current, location))
                         continue
 
-                    if response.status_code >= 400:
-                        raise WebsiteUnreachableError(self._http_error_message(response.status_code))
+                    status = response.status_code
+                    if status in (404, 410):  # the page genuinely is not there
+                        raise WebsiteUnreachableError(self._http_error_message(status))
+                    if status in RESTRICTED_STATUSES:  # checked before 5xx: LinkedIn's bot refusal is 999
+                        raise AccessRestrictedError(self._http_error_message(status), status=status)
+                    if status >= 500:  # server trouble
+                        raise WebsiteDownError(self._http_error_message(status))
+                    if status >= 400:  # 401/403/429/418/... = we were refused
+                        raise AccessRestrictedError(self._http_error_message(status), status=status)
 
                     content_type = response.headers.get("content-type", "").lower()
                     if content_type and not any(t in content_type for t in ("html", "xml", "text/plain")):
@@ -359,23 +372,27 @@ class WebsiteExtractor:
                             break  # huge page: the first couple of MB is plenty
                     return current, bytes(body)
             except httpx.TimeoutException:
-                raise WebsiteUnreachableError(
+                raise WebsiteDownError(
                     "The website took too long to respond."
                 ) from None
             except httpx.HTTPError as exc:
                 logger.info("Network error fetching %s: %s", current, type(exc).__name__)
-                raise WebsiteUnreachableError(
+                raise WebsiteDownError(
                     "We couldn't connect to that website. It may be down or blocking us."
                 ) from None
-        raise WebsiteUnreachableError("The website redirected too many times.")
+        raise AccessRestrictedError(
+            "The website redirected too many times (often a login redirect for automated visitors)."
+        )
 
     @staticmethod
     def _http_error_message(status: int) -> str:
-        if status in (401, 403, 429, 451):
+        if status in RESTRICTED_STATUSES:
             return (
                 f"The website refused our request (HTTP {status}). "
                 "It likely blocks automated visitors."
             )
         if status == 404:
             return "That page was not found (HTTP 404). Please check the URL."
+        if 400 <= status < 500 and status != 410:
+            return f"The website refused our request (HTTP {status})."
         return f"The website returned an error (HTTP {status})."

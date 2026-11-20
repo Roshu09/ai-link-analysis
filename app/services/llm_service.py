@@ -8,6 +8,8 @@ Reliability features:
   * Automatic retries with backoff for rate limits (429) and server errors (5xx),
     which matter on the free tier.
   * A fallback model if the primary one keeps failing or isn't available.
+  * Optional Google Search grounding (`use_search=True`), used when a page could not
+    be read. If that call fails for any reason we fall back to the plain JSON call.
   * The API key travels in a header and is never logged or put in a URL.
 """
 
@@ -17,7 +19,7 @@ import logging
 import random
 import re
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import httpx
 
@@ -37,6 +39,8 @@ class LLMResult:
     prompt_tokens: int | None
     output_tokens: int | None
     latency_ms: int
+    grounded: bool = False  # True if Google Search was actually used for this answer
+    sources: list[str] = field(default_factory=list)  # titles/domains the search used
 
 
 class _ModelUnavailable(Exception):
@@ -57,10 +61,23 @@ class GeminiClient:
         self._transport = transport  # tests inject a fake network here
         self._sleep = sleep
 
-    async def generate_json(self, system_prompt: str, user_prompt: str) -> LLMResult:
+    async def generate_json(
+        self, system_prompt: str, user_prompt: str, use_search: bool = False
+    ) -> LLMResult:
         if not self.settings.gemini_api_key:
             logger.error("GEMINI_API_KEY is not set")
             raise LLMConfigError()
+
+        if use_search:
+            # One quick attempt with Google Search. Any problem (tool not supported on this
+            # model/plan, quota, bad output) just means we continue with the plain call below.
+            try:
+                return await self._call_with_retries(
+                    self.settings.gemini_model, system_prompt, user_prompt, search=True, attempts=1
+                )
+            except (_ModelUnavailable, LLMError, LLMRateLimitError, LLMOutputError) as exc:
+                detail = getattr(exc, "message", None) or getattr(getattr(exc, "error", None), "message", "")
+                logger.warning("Search-grounded call failed (%s: %s); using plain JSON mode", type(exc).__name__, detail)
 
         models = [self.settings.gemini_model]
         fallback = self.settings.gemini_fallback_model
@@ -77,14 +94,21 @@ class GeminiClient:
         raise last_error
 
     # ---------------------------------------------------------------------------------
-    async def _call_with_retries(self, model: str, system_prompt: str, user_prompt: str) -> LLMResult:
-        attempts = max(1, self.settings.llm_max_retries + 1)
+    async def _call_with_retries(
+        self,
+        model: str,
+        system_prompt: str,
+        user_prompt: str,
+        search: bool = False,
+        attempts: int | None = None,
+    ) -> LLMResult:
+        attempts = attempts or max(1, self.settings.llm_max_retries + 1)
         last_error: Exception = LLMError()
 
         for attempt in range(attempts):
             started = time.perf_counter()
             try:
-                payload = await self._post(model, system_prompt, user_prompt)
+                payload = await self._post(model, system_prompt, user_prompt, search)
                 return self._parse(payload, model, int((time.perf_counter() - started) * 1000))
             except (LLMRateLimitError, LLMError) as exc:
                 # Only temporary problems land here. Bad credentials (LLMConfigError),
@@ -97,16 +121,19 @@ class GeminiClient:
 
         raise _ModelUnavailable(last_error)
 
-    async def _post(self, model: str, system_prompt: str, user_prompt: str) -> dict:
+    async def _post(self, model: str, system_prompt: str, user_prompt: str, search: bool = False) -> dict:
+        config = {"temperature": 0.3, "maxOutputTokens": 8192}
+        if not search:
+            # JSON mode. Search grounding is used without it (the prompt asks for JSON and we
+            # parse it ourselves), because the two features are not allowed together on every model.
+            config["responseMimeType"] = "application/json"
         body = {
             "systemInstruction": {"parts": [{"text": system_prompt}]},
             "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
-            "generationConfig": {
-                "responseMimeType": "application/json",
-                "temperature": 0.3,
-                "maxOutputTokens": 8192,
-            },
+            "generationConfig": config,
         }
+        if search:
+            body["tools"] = [{"google_search": {}}]
         try:
             async with httpx.AsyncClient(
                 timeout=self.settings.llm_timeout_seconds, transport=self._transport
@@ -148,18 +175,37 @@ class GeminiClient:
             logger.warning("Gemini returned no candidates (%s)", reason)
             raise LLMOutputError("The AI could not produce an analysis for this content.")
 
-        parts = (candidates[0].get("content") or {}).get("parts") or []
+        candidate = candidates[0]
+        parts = (candidate.get("content") or {}).get("parts") or []
         text = "".join(part.get("text", "") for part in parts if not part.get("thought"))
         if not text.strip():
             raise LLMOutputError()
 
+        grounding = candidate.get("groundingMetadata") or {}
+        sources: list[str] = []
+        for chunk in grounding.get("groundingChunks") or []:
+            web = chunk.get("web") or {}
+            label = (web.get("title") or "").strip()
+            if label and label not in sources:
+                sources.append(label)
+
         usage = payload.get("usageMetadata") or {}
+        try:
+            data = _load_json_object(text)
+        except LLMOutputError:
+            logger.warning(
+                "Reply was not parseable JSON (finishReason=%s, %d chars). Start: %r ... End: %r",
+                candidate.get("finishReason"), len(text), text[:150], text[-150:],
+            )
+            raise
         return LLMResult(
-            data=_load_json_object(text),
+            data=data,
             model=model,
             prompt_tokens=usage.get("promptTokenCount"),
             output_tokens=usage.get("candidatesTokenCount"),
             latency_ms=latency_ms,
+            grounded=bool(grounding.get("groundingChunks") or grounding.get("webSearchQueries")),
+            sources=sources[:5],
         )
 
 
@@ -167,11 +213,17 @@ def _load_json_object(text: str) -> dict:
     """Parse JSON even if the model wrapped it in ```json fences or added chatter."""
     cleaned = text.strip()
     cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned, flags=re.IGNORECASE)
-    for candidate in (cleaned, _outermost_braces(cleaned)):
+    braces = _outermost_braces(cleaned)
+    candidates = [cleaned, braces]
+    # Common slips: trailing commas. Raw newlines/tabs inside strings are allowed by strict=False.
+    for text_ in (cleaned, braces):
+        if text_:
+            candidates.append(re.sub(r",\s*([}\]])", r"\1", text_))
+    for candidate in candidates:
         if not candidate:
             continue
         try:
-            parsed = json.loads(candidate)
+            parsed = json.loads(candidate, strict=False)
         except ValueError:
             continue
         if isinstance(parsed, dict):

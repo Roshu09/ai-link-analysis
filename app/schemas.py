@@ -27,6 +27,19 @@ def _to_str_list(value) -> list[str]:
     return [_to_str(value)]
 
 
+def _dicts_only(value) -> list:
+    """A list of objects. Strays (a bare string, null, a single object) are repaired or dropped."""
+    if isinstance(value, dict):
+        return [value]
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
+def _none_to_empty_dict(value):
+    return {} if value is None else value
+
+
 Text = Annotated[str, BeforeValidator(_to_str)]
 StrList = Annotated[list[str], BeforeValidator(_to_str_list)]
 
@@ -43,6 +56,10 @@ _PLATFORM_ALIASES = {
     "twitter": "X",
     "x (twitter)": "X",
     "x/twitter": "X",
+    "x.com": "X",
+    "twitter (x)": "X",
+    "linked in": "LinkedIn",
+    "meta": "Facebook",
     "twitter/x": "X",
 }
 
@@ -90,6 +107,11 @@ class Competitor(BaseModel):
     # so we always say so. (The assignment asks for exactly this honesty.)
     source: Literal["ai_suggested"] = "ai_suggested"
 
+    @field_validator("source", mode="before")
+    @classmethod
+    def _always_ai_suggested(cls, value):
+        return "ai_suggested"
+
     @field_validator("website", mode="before")
     @classmethod
     def _clean_website(cls, value):
@@ -109,8 +131,8 @@ class CompetitorAnalysis(BaseModel):
     brand_overview: Text = ""
     main_category: Text = ""
     main_products_services: StrList = []
-    your_brand_profile: BrandProfile = BrandProfile()
-    competitors: list[Competitor] = []
+    your_brand_profile: Annotated[BrandProfile, BeforeValidator(_none_to_empty_dict)] = BrandProfile()
+    competitors: Annotated[list[Competitor], BeforeValidator(_dicts_only)] = []
     comparison_table: list[ComparisonRow] = []  # built by code from the fields above
     strengths: StrList = []  # your brand's competitive advantages
     opportunities: StrList = []  # ways to improve market positioning
@@ -135,7 +157,8 @@ class SearchQuery(BaseModel):
             if canonical and canonical not in seen:
                 seen.append(canonical)
         if not seen:
-            raise ValueError("platforms must include at least one of Google, Facebook, Instagram, LinkedIn, X")
+            # Unknown platform names (e.g. "Telegram") must not reject the whole analysis.
+            seen.append("Google")
         return seen
 
 
@@ -156,9 +179,17 @@ class SEOImprovements(BaseModel):
     recommended_title: Text = ""
     title_structure: Text = ""
     meta_description: Text = ""
-    supporting_content: list[SupportingContent] = []
+    supporting_content: Annotated[list[SupportingContent], BeforeValidator(_dicts_only)] = []
     title_length: int = 0
     meta_description_length: int = 0
+
+    @field_validator("title_length", "meta_description_length", mode="before")
+    @classmethod
+    def _lenient_int(cls, value):
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return 0  # we recompute both lengths ourselves anyway
 
 
 # ---------------------------------------------------------------------------------------
@@ -198,18 +229,18 @@ class TargetAudience(BaseModel):
 # Whole analysis + response
 # ---------------------------------------------------------------------------------------
 class Analysis(BaseModel):
-    competitor_analysis: CompetitorAnalysis = CompetitorAnalysis()
-    target_search_queries: list[SearchQuery] = []
-    seo_improvements: SEOImprovements = SEOImprovements()
-    top_services: list[Service] = []
-    target_audience: TargetAudience = TargetAudience()
+    competitor_analysis: Annotated[CompetitorAnalysis, BeforeValidator(_none_to_empty_dict)] = CompetitorAnalysis()
+    target_search_queries: Annotated[list[SearchQuery], BeforeValidator(_dicts_only)] = []
+    seo_improvements: Annotated[SEOImprovements, BeforeValidator(_none_to_empty_dict)] = SEOImprovements()
+    top_services: Annotated[list[Service], BeforeValidator(_dicts_only)] = []
+    target_audience: Annotated[TargetAudience, BeforeValidator(_none_to_empty_dict)] = TargetAudience()
 
 
 class LLMOutput(BaseModel):
     """Exactly what we ask the model to return."""
 
-    brand: Brand = Brand()
-    analysis: Analysis = Analysis()
+    brand: Annotated[Brand, BeforeValidator(_none_to_empty_dict)] = Brand()
+    analysis: Annotated[Analysis, BeforeValidator(_none_to_empty_dict)] = Analysis()
 
 
 class ResponseMeta(BaseModel):
@@ -219,6 +250,13 @@ class ResponseMeta(BaseModel):
     pages_analyzed: list[str] = []
     prompt_tokens: int | None = None
     output_tokens: int | None = None
+    # "page" = the page was read. "url_only" = it could not be read (login wall, bot
+    # protection...), so the analysis is based on the link itself and is lower confidence.
+    content_source: Literal["page", "url_only"] = "page"
+    platform: str | None = None  # e.g. Instagram, when the link is a social profile
+    account: str | None = None  # e.g. crestspot
+    grounded: bool = False  # True if Google Search was used for this answer
+    grounding_sources: list[str] = []
     warnings: list[str] = []
     notes: list[str] = [
         "Competitors are AI-generated suggestions, not live market research.",

@@ -136,3 +136,42 @@ def test_blocked_prompt_raises_output_error():
     handler = lambda r: httpx.Response(200, json={"promptFeedback": {"blockReason": "SAFETY"}})
     with pytest.raises(LLMOutputError):
         run(make_client(handler))
+
+
+def test_search_mode_sends_search_tool_without_json_mode_and_reads_sources():
+    seen = {}
+
+    def handler(request):
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(200, json={
+            "candidates": [{
+                "content": {"parts": [{"text": 'Here you go: {"a": 1}'}]},
+                "groundingMetadata": {"groundingChunks": [{"web": {"title": "crestspot.cloud", "uri": "https://x"}}]},
+            }],
+        })
+
+    result = asyncio.run(make_client(handler).generate_json("s", "u", use_search=True))
+    assert seen["body"]["tools"] == [{"google_search": {}}]
+    assert "responseMimeType" not in seen["body"]["generationConfig"]
+    assert result.data == {"a": 1}
+    assert result.grounded is True and result.sources == ["crestspot.cloud"]
+
+
+def test_search_mode_falls_back_to_plain_json_when_the_tool_is_rejected():
+    bodies = []
+
+    def handler(request):
+        body = json.loads(request.content)
+        bodies.append(body)
+        if "tools" in body:
+            return httpx.Response(400, text="google_search tool not supported here")
+        return gemini_ok('{"b": 2}')
+
+    result = asyncio.run(make_client(handler).generate_json("s", "u", use_search=True))
+    assert result.data == {"b": 2} and result.grounded is False
+    assert len(bodies) == 2 and "tools" not in bodies[1]
+
+
+def test_search_mode_does_not_hide_a_bad_api_key():
+    with pytest.raises(LLMConfigError):
+        asyncio.run(make_client(lambda r: httpx.Response(403, text="denied")).generate_json("s", "u", use_search=True))

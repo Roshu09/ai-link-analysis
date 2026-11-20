@@ -112,9 +112,10 @@ REQUIREMENTS = """REQUIREMENTS
 - Fill every field. Use [] only if truly nothing applies."""
 
 
-def build_user_prompt(website_text: str, site_url: str) -> str:
+def build_user_prompt(website_text: str, site_url: str, context_note: str = "") -> str:
+    note = f"{context_note}\n" if context_note else ""
     return (
-        f"Analyze this website: {site_url}\n\n"
+        f"Analyze this website: {site_url}\n{note}\n"
         f"Return JSON that follows this structure exactly (replace the descriptions with real content):\n"
         f"{OUTPUT_TEMPLATE}\n\n"
         f"{REQUIREMENTS}\n\n"
@@ -128,4 +129,47 @@ def build_retry_suffix(problem: str) -> str:
     return (
         "\n\nYour previous answer was rejected for this reason: "
         f"{problem}\nReturn the COMPLETE corrected JSON object again, following the structure and requirements exactly."
+    )
+
+
+# ---------------------------------------------------------------------------------------
+# Link-only mode: the page could not be read (login wall, bot protection, JavaScript-only)
+# ---------------------------------------------------------------------------------------
+SYSTEM_PROMPT_LIMITED = """You are a senior digital-marketing, SEO and competitive-intelligence analyst.
+The page behind the link could NOT be read (the site blocked automated access, needs a login, or has no readable text).
+All you know is the link, the platform and the account name. Return ONE JSON object in the required structure.
+
+STRICT RULES
+1. Analyze the business, brand or person BEHIND the link, not the website or social platform itself.
+2. If a search tool is available, use it to look up the brand or account and base your answer on what you find.
+   Otherwise rely only on well-established general knowledge.
+3. If you cannot confidently identify the business, say so plainly in brand.summary, keep every field generic and
+   clearly hedged, and prefer shorter lists over made-up detail. Never invent facts such as follower counts, awards,
+   prices, products, locations or partners.
+4. NEVER invent search volumes, rankings, traffic numbers or statistics.
+5. Set "source": "inferred" for every service.
+6. Competitors: only real, well-known companies in the category you identified. Use an empty list if the category
+   itself is uncertain.
+7. Write in clear, concrete, professional English. Keep every field concise.
+8. Return ONLY valid JSON. No markdown fences, no commentary.
+"""
+
+LIMITED_REQUIREMENTS = """REQUIREMENTS
+- target_search_queries: EXACTLY 5 items. Allowed platforms are only: Google, Facebook, Instagram, LinkedIn, X.
+  Each query lists the 1-3 platforms where it fits best.
+- competitors: up to 4 real competitors, or an empty list if you cannot tell what the business does.
+- top_services: up to 5 items, all with "source": "inferred".
+- seo_improvements: 4-6 items in each keyword list and in supporting_content.
+- target_audience: 2-5 items in each list.
+- Hedge claims you are unsure about. Fill every field you reasonably can."""
+
+
+def build_limited_prompt(url: str, subject: str, reason: str) -> str:
+    return (
+        f"Analyze this link: {url}\n"
+        f"What it is: {subject}\n"
+        f"Why the page could not be read: {reason}\n\n"
+        f"Return JSON that follows this structure exactly (replace the descriptions with real content):\n"
+        f"{OUTPUT_TEMPLATE}\n\n"
+        f"{LIMITED_REQUIREMENTS}"
     )

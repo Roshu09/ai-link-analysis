@@ -81,13 +81,13 @@ class TestPipeline:
         assert analyze(make_service(llm)).success
         assert llm.calls == 2
 
-    def test_gives_up_after_second_bad_answer(self):
+    def test_gives_up_when_the_answer_is_empty_after_the_retry(self):
         broken = good_output()
-        broken["analysis"]["top_services"] = []
+        broken["analysis"] = {}
         llm = FakeLLM(broken)
         with pytest.raises(LLMOutputError):
             analyze(make_service(llm))
-        assert llm.calls == 2
+        assert llm.calls == 3
 
     def test_second_request_is_served_from_cache(self):
         llm, extractor = FakeLLM(good_output()), FakeExtractor()
@@ -169,7 +169,6 @@ class TestApi:
         "error, status, code",
         [
             (WebsiteUnreachableError(), 502, "website_unreachable"),
-            (UnreadableContentError(), 422, "unreadable_content"),
         ],
     )
     def test_website_problems(self, client, error, status, code):

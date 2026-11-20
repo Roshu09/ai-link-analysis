@@ -171,3 +171,66 @@ class TestFetching:
         shell = '<html><head><title>App</title></head><body><div id="root"></div><script src="/app.js"></script></body></html>'
         with pytest.raises(UnreadableContentError):
             asyncio.run(make_extractor(lambda r: html_response(shell)).extract("https://spa.example.com/"))
+
+
+class TestBlockedSites:
+    @pytest.mark.parametrize("status", [401, 403, 405, 429, 999])
+    def test_refusals_are_flagged_as_access_restricted(self, status):
+        from app.exceptions import AccessRestrictedError
+
+        with pytest.raises(AccessRestrictedError) as caught:
+            asyncio.run(make_extractor(lambda r: html_response("no", status)).extract("https://www.instagram.com/crestspot"))
+        assert caught.value.http_status == status
+        assert "refused" in caught.value.message
+
+    @pytest.mark.parametrize("status", [404, 410, 500])
+    def test_missing_or_broken_pages_are_not_treated_as_blocked(self, status):
+        from app.exceptions import AccessRestrictedError
+
+        with pytest.raises(WebsiteUnreachableError) as caught:
+            asyncio.run(make_extractor(lambda r: html_response("x", status)).extract("https://acme.example/"))
+        assert not isinstance(caught.value, AccessRestrictedError)
+
+
+class TestFailureClassification:
+    @pytest.mark.parametrize("status", [400, 402, 418, 451])
+    def test_other_client_errors_count_as_refusals(self, status):
+        from app.exceptions import AccessRestrictedError
+
+        with pytest.raises(AccessRestrictedError):
+            asyncio.run(make_extractor(lambda r: html_response("no", status)).extract("https://acme.example/"))
+
+    @pytest.mark.parametrize("status", [500, 502, 503])
+    def test_server_errors_are_marked_as_down(self, status):
+        from app.exceptions import WebsiteDownError
+
+        with pytest.raises(WebsiteDownError):
+            asyncio.run(make_extractor(lambda r: html_response("x", status)).extract("https://acme.example/"))
+
+    def test_timeouts_and_connection_errors_are_marked_as_down(self):
+        from app.exceptions import WebsiteDownError
+
+        def timeout(request):
+            raise httpx.ConnectTimeout("slow", request=request)
+
+        def refused(request):
+            raise httpx.ConnectError("no route", request=request)
+
+        for handler in (timeout, refused):
+            with pytest.raises(WebsiteDownError):
+                asyncio.run(make_extractor(handler).extract("https://acme.example/"))
+
+    def test_redirect_loop_counts_as_a_refusal(self):
+        from app.exceptions import AccessRestrictedError
+
+        handler = lambda r: httpx.Response(302, headers={"location": "https://loop.example.com/"})
+        with pytest.raises(AccessRestrictedError):
+            asyncio.run(make_extractor(handler).extract("https://loop.example.com/"))
+
+    def test_404_is_a_real_not_found(self):
+        from app.exceptions import AccessRestrictedError, WebsiteDownError
+
+        with pytest.raises(WebsiteUnreachableError) as caught:
+            asyncio.run(make_extractor(lambda r: html_response("x", 404)).extract("https://acme.example/nope"))
+        assert not isinstance(caught.value, (AccessRestrictedError, WebsiteDownError))
+        assert "not found" in caught.value.message
