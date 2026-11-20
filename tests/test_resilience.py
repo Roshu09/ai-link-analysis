@@ -114,3 +114,18 @@ class TestSloppyJson:
     def test_a_third_attempt_rescues_two_bad_answers(self):
         llm = FakeLLM(LLMOutputError(), LLMOutputError(), good_output())
         assert run(llm).success and llm.calls == 3
+
+
+class TestRealWorldBrokenJson:
+    def test_invalid_backslash_escape_is_fixed(self):
+        from app.services.llm_service import _load_json_object
+        assert _load_json_object('{"a": "Python\\\'s docs"}') == {"a": "Python's docs"}
+
+    def test_unescaped_inner_quotes_are_repaired(self):
+        from app.services.llm_service import _load_json_object
+        assert _load_json_object('{"a": "He said "hi" there", "b": [1]}')["b"] == [1]
+
+    def test_garbage_is_still_rejected(self):
+        from app.services.llm_service import _load_json_object
+        with pytest.raises(LLMOutputError):
+            _load_json_object("I cannot help with that.")

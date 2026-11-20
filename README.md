@@ -187,7 +187,7 @@ app/
     validators.py              URL validation and SSRF protection
     cache.py                   TTL cache
     rate_limit.py              per-client rate limiter
-tests/                         188 tests (validators, extractor, LLM client, pipeline, API)
+tests/                         191 tests (validators, extractor, LLM client, pipeline, API)
 scripts/benchmark.py           measures real latency/tokens/reliability of models
 scripts/smoke_test.py          runs ~45 varied links against a running API and checks each result
 ```

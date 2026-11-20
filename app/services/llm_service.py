@@ -210,24 +210,44 @@ class GeminiClient:
 
 
 def _load_json_object(text: str) -> dict:
-    """Parse JSON even if the model wrapped it in ```json fences or added chatter."""
+    """Parse the model's JSON, repairing the slips models really make.
+
+    Order: as-is, then trailing commas / invalid backslash escapes (e.g. \\' in "Python\\'s"),
+    then the json-repair library (unescaped inner quotes, etc.) as a last resort.
+    """
     cleaned = text.strip()
     cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned, flags=re.IGNORECASE)
     braces = _outermost_braces(cleaned)
-    candidates = [cleaned, braces]
-    # Common slips: trailing commas. Raw newlines/tabs inside strings are allowed by strict=False.
-    for text_ in (cleaned, braces):
-        if text_:
-            candidates.append(re.sub(r",\s*([}\]])", r"\1", text_))
+    bases = [b for b in (cleaned, braces) if b]
+    candidates = list(bases)
+    for base in bases:
+        fixed = re.sub(r"\\(?![\"\\/bfnrt]|u[0-9a-fA-F]{4})", "", base)  # invalid escapes: drop the backslash
+        fixed = re.sub(r",\s*([}\]])", r"\1", fixed)  # trailing commas
+        candidates.append(fixed)
+
+    first_error = None
     for candidate in candidates:
-        if not candidate:
-            continue
         try:
             parsed = json.loads(candidate, strict=False)
-        except ValueError:
+        except ValueError as exc:
+            first_error = first_error or exc
             continue
         if isinstance(parsed, dict):
             return parsed
+
+    if first_error is not None:
+        pos = getattr(first_error, "pos", 0) or 0
+        logger.warning("JSON error: %s | around: %r", first_error, bases[0][max(0, pos - 60): pos + 60] if bases else "")
+    try:
+        from json_repair import loads as repair_loads
+
+        for base in bases:
+            repaired = repair_loads(base)
+            if isinstance(repaired, dict) and repaired:
+                logger.info("JSON was repaired with json-repair")
+                return repaired
+    except Exception:  # library missing or it could not help
+        pass
     raise LLMOutputError()
 
 
